@@ -26,7 +26,7 @@ Feature Classifiers for different variable regions of Prokaryotic 16S rRNA genes
 <br>
 
 ### System Configuration:  
-**Processor (C/T):** AND Ryzen 4600H (6/12)  
+**Processor (C/T):** AMD Ryzen 4600H (6/12)  
 **RAM:** 16GB  
 **Swap:** 50GB  
 **TMP:** 50GB  
