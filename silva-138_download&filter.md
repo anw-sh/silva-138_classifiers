@@ -1,6 +1,3 @@
-**Database:** [SILVA release_138 nr99 SSU](https://www.arb-silva.de/fileadmin/silva_databases/release_138/Exports/SILVA_138_SSURef_NR99_tax_silva.fasta.gz)  
-**Tutorials:** QIIME 2 - [Feature Classifier](https://docs.qiime2.org/2021.4/tutorials/feature-classifier/) & [RESCRIPt](https://forum.qiime2.org/t/processing-filtering-and-evaluating-the-silva-database-and-other-reference-sequence-data-with-rescript/15494)
-
 ## Workflow
 
 #### Downloading SILVA data
@@ -39,3 +36,6 @@ qiime rescript filter-seqs-length-by-taxon --i-sequences silva138_noEuk_seqs.qza
 ```bash
 qiime rescript dereplicate --i-sequences silva138_noEuk_AB_seqs.qza --i-taxa silva-138-ssu-nr99-tax.qza --p-threads 12 --o-dereplicated-sequences silva138_noEuk_AB_seqs_uniq.qza --o-dereplicated-taxa silva138_noEuk_AB_tax_uniq.qza
 ```
+
+___
+
