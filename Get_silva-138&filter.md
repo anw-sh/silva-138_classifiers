@@ -39,3 +39,5 @@ qiime rescript dereplicate --i-sequences silva138_noEuk_AB_seqs.qza --i-taxa sil
 
 ___
 
+- Workflow for [**V3-V4** classifier](V3-V4_classifier.md) 
+- Workflow for [**V4** classifier](V4_classifier.md)
