@@ -36,6 +36,8 @@ qiime rescript filter-seqs-length-by-taxon --i-sequences silva138_noEuk_seqs.qza
 ```bash
 qiime rescript dereplicate --i-sequences silva138_noEuk_AB_seqs.qza --i-taxa silva-138-ssu-nr99-tax.qza --p-threads 12 --o-dereplicated-sequences silva138_noEuk_AB_seqs_uniq.qza --o-dereplicated-taxa silva138_noEuk_AB_tax_uniq.qza
 ```
+_**Dereplicated Sequences:** [silva138_noEuk_AB_seqs_uniq.qza](https://mega.nz/file/xaITGA7L#V9BtsBC9Zd61K0YLgEYJBNpc4WP4fuN4go01sneRhoI)_  
+_**Dereplicated Taxa:** [silva138_noEuk_AB_tax_uniq.qza](https://mega.nz/file/IeZnxQ4L#MBreCSxvIa5WG1bSJy7brqo8glfhjDL87KYjqAcSEkw)_
 
 ___
 
