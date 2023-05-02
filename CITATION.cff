@@ -15,8 +15,6 @@ authors:
     family-names: Maile
     email: anwesh023@gmail.com
     orcid: 'https://orcid.org/0000-0003-2164-3251'
-url: >-
-  https://forum.qiime2.org/t/pre-trained-silva-classifier-v3-v4-qiime-2021-4/20470/7
 abstract: >-
   This repository provides custom SILVA 138 classifiers for
   the commonly used variable regions of 16S rRNA gene. The
