@@ -1,0 +1,337 @@
+<!DOCTYPE <!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <title>SILVA 138 Classifiers</title>
+        <meta name="description" content="SILVA 138 classifiers made by using RESCRIPt and QIIME2">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="keywords" content="SILVA 138, QIIME2, RESCRIPt, Feature Classifiers, Amplicon Sequencing, Microbiome Analysis">
+        
+        <!-- Bootstrap CSS -->
+        <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
+        <!-- Bootstrap Custom CSS -->
+        <link rel="stylesheet" href="assets/css/style.css">
+        <!-- Bootstrap Icons-->
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css">
+
+        <!-- Highlight CSS for syntax highlighting in code snippets -->
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/styles/default.min.css">
+        <link rel="stylesheet" href="assets/css/highlightJS/atom-one-dark-reasonable.css">
+
+        <!-- Highlight-copy CSS -->
+        <link rel="stylesheet" href="https://unpkg.com/highlightjs-copy/dist/highlightjs-copy.min.css"
+        />
+
+        <!-- Fonts -->
+        <link rel="preconnect" href="https://fonts.googleapis.com">
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,300;1,400;1,700&family=Inter:wght@100;200;300;400;500;600;700;800;900&family=JetBrains+Mono:ital,wght@0,300;0,400;0,700;1,300;1,400;1,700&display=swap" rel="stylesheet">
+
+        <!-- Additional Custom CSS -->
+        <link rel="stylesheet" href="assets/css/custom.css">
+    </head>
+    <body>
+        <section class="container mx-auto my-4 p-4 px-lg-0">
+            <h1 class="display-5 text-center text-info fw-semibold">SILVA 138 Classifiers</h1>
+            <p class="text-secondary-emphasis text-center">Feature Classifiers for different variable regions of Prokaryotic 16S rRNA genes.</p>
+            <hr class="w-75 mx-auto">
+            <p class="text-secondary-emphasis text-center">
+                <strong>Database: </strong><a href="https://www.arb-silva.de/fileadmin/silva_databases/release_138/Exports/SILVA_138_SSURef_NR99_tax_silva.fasta.gz" target="_blank">SILVA release_138 nr99 SSU</a> | 
+                <strong>Tutorials: </strong>QIIME2 - <a href="https://docs.qiime2.org/2021.4/tutorials/feature-classifier/" target="_blank">Feature Classifier</a> & <a href="https://forum.qiime2.org/t/processing-filtering-and-evaluating-the-silva-database-and-other-reference-sequence-data-with-rescript/15494" target="_blank">RESCRIPt</a> | 
+                <strong>QIIME2 version: </strong><a href="https://docs.qiime2.org/2021.4/install/native/#install-qiime-2-within-a-conda-environment" target="_blank">2021.4</a>
+            </p>
+            <hr class="w-75 mx-auto">
+            <p class="text-secondary-emphasis text-center">
+                <strong>Direct Download Directories: </strong><a href="https://mega.nz/folder/BShVxSxI#ycO7skyxUlF45mFI9qd1YQ" target="_blank">V1-V2 <i class="fa-regular fa-folder-open"></i></a> | <a href="https://mega.nz/folder/EH5kGJoI#LMADRhcXuUWhExFLRTcghw" target="_blank">V3 <i class="fa-regular fa-folder-open"></i></a> | <a href="https://mega.nz/folder/kbAkjDrT#0XV7sNKg7_ljTTbIKBwTSQ" target="_blank">V3-V4 <i class="fa-regular fa-folder-open"></i></a> | <a href="https://mega.nz/folder/9eIwyBSb#E61q1s1lbkxQ6kzxCW-qNg" target="_blank">V4 <i class="fa-regular fa-folder-open"></i></a>
+            </p>
+
+            <!-- Workflow -->
+            <h3 class="text-center text-warning-emphasis mt-5 fw-bold">Workflow</h3>
+            <p>
+                1. Download SILVA data
+                <pre>
+                    <code>qiime rescript get-silva-data --p-version '138' --p-target 'SSURef_NR99' --p-include-species-labels --o-silva-sequences silva-138-ssu-nr99-seqs.qza --o-silva-taxonomy silva-138-ssu-nr99-tax.qza
+                    </code>
+                </pre>
+                <em>Taxonomy file has 7 levels as required and without gaps (all levels are labelled). Not performing the rank propagation step.</em>
+            </p>
+            <br>
+            <p>
+                2. Remove low quality sequences
+                <pre>
+                    <code>qiime rescript cull-seqs --i-sequences silva-138-ssu-nr99-seqs.qza --o-clean-sequences silva-138-ssu-nr99-seqs-cleaned.qza
+                    </code>
+                </pre>
+            </p>
+            <br>
+            <p>
+                3. Remove Eukaryotic taxa
+                <pre>
+                    <code>qiime taxa filter-seqs --i-sequences silva-138-ssu-nr99-seqs-cleaned.qza --i-taxonomy silva-138-ssu-nr99-tax.qza --p-exclude 'd__Eukaryota' --p-mode 'contains' --o-filtered-sequences silva138_noEuk_seqs.qza
+                    </code>
+                </pre>
+            </p>
+            <br>
+            <p>
+                4. Filter by length <br>
+                <em>Archaea, Bacteria & Eukaryota (900, 1200, 1400 bases) - Excluding Eukaryota as it has already been removed.</em>
+                <pre>
+                    <code>qiime rescript filter-seqs-length-by-taxon --i-sequences silva138_noEuk_seqs.qza --i-taxonomy silva-138-ssu-nr99-tax.qza --p-labels Archaea Bacteria --p-min-lens 900 1200 --o-filtered-seqs silva138_noEuk_AB_seqs.qza --o-discarded-seqs silva138_Euk_seqs_discard.qza
+                    </code>
+                </pre>
+                <em>This step did not discard any sequences, as those sequences were filtered in the previous step itself</em>
+            </p>
+            <br>
+            <p>
+                5. Dereplicate <br>
+                <em>Default mode - uniq; Default rank-handles - silva</em>
+                <pre>
+                    <code>qiime rescript dereplicate --i-sequences silva138_noEuk_AB_seqs.qza --i-taxa silva-138-ssu-nr99-tax.qza --p-threads 12 --o-dereplicated-sequences silva138_noEuk_AB_seqs_uniq.qza --o-dereplicated-taxa silva138_noEuk_AB_tax_uniq.qza
+                    </code>
+                </pre>
+                <em>
+                    Dereplicated Sequences: <a href="https://mega.nz/file/xaITGA7L#V9BtsBC9Zd61K0YLgEYJBNpc4WP4fuN4go01sneRhoI" target="_blank"> silva138_noEuk_AB_seqs_uniq.qza <i class="fa-solid fa-download"></i></a>
+                    <br>
+                    Dereplicated Taxa: <a href="https://mega.nz/file/IeZnxQ4L#MBreCSxvIa5WG1bSJy7brqo8glfhjDL87KYjqAcSEkw" target="_blank">silva138_noEuk_AB_tax_uniq.qza <i class="fa-solid fa-download"></i></a>
+                </em>
+            </p>
+
+            <!-- Classifiers -->
+            <div class="mt-5">
+                <h5 class="text-warning-emphasis text-uppercase mb-3">Classifiers...</h5>
+                <ul class="nav nav-tabs" id="myTab" role="tablist">
+                    <li class="nav-item" role="presentation">
+                      <button class="nav-link active" id="v1v2-tab" data-bs-toggle="tab" data-bs-target="#v1v2-tab-pane" type="button" role="tab" aria-controls="v1v2-tab-pane" aria-selected="true">V1-V2</button>
+                    </li>
+                    <li class="nav-item" role="presentation">
+                      <button class="nav-link" id="v3-tab" data-bs-toggle="tab" data-bs-target="#v3-tab-pane" type="button" role="tab" aria-controls="v3-tab-pane" aria-selected="false">V3</button>
+                    </li>
+                    <li class="nav-item" role="presentation">
+                      <button class="nav-link" id="v3v4-tab" data-bs-toggle="tab" data-bs-target="#v3v4-tab-pane" type="button" role="tab" aria-controls="v3v4-tab-pane" aria-selected="false">V3-V4</button>
+                    </li>
+                    <li class="nav-item" role="presentation">
+                        <button class="nav-link" id="v4-tab" data-bs-toggle="tab" data-bs-target="#v4-tab-pane" type="button" role="tab" aria-controls="v4-tab-pane" aria-selected="false">V4</button>
+                    </li>
+                  </ul>
+                  <div class="tab-content" id="myTabContent">
+                    <div class="tab-pane mt-3 fade show active" id="v1v2-tab-pane" role="tabpanel" aria-labelledby="v1v2-tab" tabindex="0">
+                        <p>
+                            6. Extract V1-V2 region <br>
+                            <em>Primers: 27f & 338r</em>
+                            <pre>
+                                <code>qiime feature-classifier extract-reads --i-sequences silva138_noEuk_AB_seqs_uniq.qza --p-f-primer AGAGTTTGATCMTGGCTCAG --p-r-primer TGCTGCCTCCCGTAGGAGT --p-n-jobs 12 --o-reads silva138_AB_V1-V2seqs.qza
+                                </code>
+                            </pre>
+                            <em>Output: <a href="https://mega.nz/file/cCwhxQZZ#DSMxha2NvwgqF5di_Xj1k0MMeB3cxeknrUjJfC_46RM" target="_blank">silva138_AB_V1-V2seqs.qza <i class="fa-solid fa-download"></i></a></em>
+                        </p>
+                        <br>
+                        <p>
+                            7. Dereplicate the target region
+                            <pre>
+                                <code>qiime rescript dereplicate --i-sequences silva138_AB_V1-V2seqs.qza --i-taxa silva138_noEuk_AB_tax_uniq.qza --o-dereplicated-sequences silva138_AB_V1-V2seqs_uniq.qza --o-dereplicated-taxa silva138_AB_V1-V2taxa_uniq.qza
+                                </code>
+                            </pre>
+                            <em>
+                                Dereplicated Sequences: <a href="https://mega.nz/file/pGxiRTwA#o4erg0w7HgkUE3BMs1ua1o4aecdOIOZ2C76_q0Mu6GM" target="_blank">silva138_AB_V1-V2seqs_uniq.qza <i class="fa-solid fa-download"></i></a>
+                                <br>
+                                Dereplicated Taxa: <a href="https://mega.nz/file/dbp1yAQI#Y6AwXFv0KKRb_yzLew_iZFM3IDZRh6WI-RODETQV2v4" target="_blank">silva138_AB_V1-V2taxa_uniq.qza <i class="fa-solid fa-download"></i></a>
+                            </em>
+                        </p>
+                        <br>
+                        <p>
+                            8. Classify & evaluate with RESCRIPt <br>
+                            <em>Using multiple threads increases memory usage <a href="https://forum.qiime2.org/t/memoryerror-when-running-feature-classifer-with-pre-trained-classifier/566/3" target="_blank"><i class="fa-solid fa-link"></i></a>. Using 1 thread with auto reads per batch (took approx 19 hrs)</em>
+                            <pre>
+                                <code>qiime rescript evaluate-fit-classifier --i-sequences silva138_AB_V1-V2seqs_uniq.qza --i-taxonomy silva138_AB_V1-V2taxa_uniq.qza --o-classifier silva138_AB_V1-V2_classifier.qza --o-observed-taxonomy silva138_AB_V1-V2_predicted_taxonomy.qza --o-evaluation silva138_AB_V1-V2_classifier_eval.qzv
+                                </code>
+                            </pre>
+                            <em>
+                                Classifier: <a href="https://mega.nz/file/IOoQUR4S#bra_ukhPfUpjJDwhkBIrmaIWkM53haC8G1zsfnKihck" target="_blank">silva138_AB_V1-V2_classifier.qza <i class="fa-solid fa-download"></i></a>
+                                <br>
+                                Predicted Taxonomy: <a href="https://mega.nz/file/kTxg1Z6I#80Gtezbctn3Q-e8-9wH-banMtVnnmeG0sXvtrcbAkq0" target="_blank">silva138_AB_V1-V2_predicted_taxonomy.qza <i class="fa-solid fa-download"></i></a>
+                                <br>
+                                Evaluation: <a href="https://mega.nz/file/hDxwAJpL#e3NGbARvke3GZVPOkserr-Bz-qOJZ9E0HJYYLZo2QhA" target="_blank">silva138_AB_V1-V2_classifier_eval.qzv <i class="fa-solid fa-download"></i></a>
+                            </em>
+                        </p>
+                    </div>
+                    <div class="tab-pane mt-3 fade" id="v3-tab-pane" role="tabpanel" aria-labelledby="v3-tab" tabindex="0">
+                        <p>
+                            6. Extract V3 region <br>
+                            <em>Primers: 341f & 518r</em>
+                            <pre>
+                                <code>qiime feature-classifier extract-reads --i-sequences silva138_noEuk_AB_seqs_uniq.qza --p-f-primer CCTACGGGNGGCWGCAG --p-r-primer GTATTACCGCGGCTGCTGG --p-n-jobs 12 --o-reads silva138_AB_V3seqs.qza
+                                </code>
+                            </pre>
+                            <em>Output: <a href="https://mega.nz/file/FbxylRaI#OxZmLQU878fiTJI-YvRKwzoOy67HoXEkTGGlg8xP94I" target="_blank">silva138_AB_V3seqs.qza <i class="fa-solid fa-download"></i></a></em>
+                        </p>
+                        <br>
+                        <p>
+                            7. Dereplicate the target region
+                            <pre>
+                                <code>qiime rescript dereplicate --i-sequences silva138_AB_V3seqs.qza --i-taxa silva138_noEuk_AB_tax_uniq.qza --o-dereplicated-sequences silva138_AB_V3seqs_uniq.qza --o-dereplicated-taxa silva138_AB_V3taza_uniq.qza
+                                </code>
+                            </pre>
+                            <em>
+                                Dereplicated Sequences: <a href="https://mega.nz/file/dSpCFLjb#Lun5LEj6GljOo_YN81Kn9Le14hzuFQzLUhdc4atLtHA" target="_blank">silva138_AB_V3seqs_uniq.qza <i class="fa-solid fa-download"></i></a>
+                                <br>
+                                Dereplicated Taxa: <a href="https://mega.nz/file/Abw0XbSL#mPBi4jO33aR9njoCY0UaYcdQY8XssQws4eaaP2BBWCk" target="_blank">silva138_AB_V3taxa_uniq.qza <i class="fa-solid fa-download"></i></a>
+                            </em>
+                        </p>
+                        <br>
+                        <p>
+                            8. Classify & evaluate with RESCRIPt <br>
+                            <em>Using multiple threads increases memory usage <a href="https://forum.qiime2.org/t/memoryerror-when-running-feature-classifer-with-pre-trained-classifier/566/3" target="_blank"><i class="fa-solid fa-link"></i></a>. Using 1 thread with auto reads per batch (took approx 20 hrs)</em>
+                            <pre>
+                                <code>qiime rescript evaluate-fit-classifier --i-sequences silva138_AB_V3seqs_uniq.qza --i-taxonomy silva138_AB_V3taxa_uniq.qza --o-classifier silva138_AB_V3_classifier.qza --o-observed-taxonomy silva138_AB_V3_predicted_taxonomy.qza --o-evaluation silva138_AB_V3_classifier_eval.qzv
+                                </code>
+                            </pre>
+                            <em>
+                                Classifier: <a href="https://mega.nz/file/tD4wELQD#RCdoXEKBIGb07_pMugTesQCLjjfOJu24llJfzFUBKt8" target="_blank">silva138_AB_V3_classifier.qza <i class="fa-solid fa-download"></i></a>
+                                <br>
+                                Predicted Taxonomy: <a href="https://mega.nz/file/sToynbrB#va9alyidk5pqhVMnqmwuZmUGXKbsY_xBhwei_-tF-K0" target="_blank">silva138_AB_V3_predicted_taxonomy.qza <i class="fa-solid fa-download"></i></a>
+                                <br>
+                                Evaluation: <a href="https://mega.nz/file/9OwwmZAK#L0B0TjdCEwJM340xGbs5f_dROOJPGAaSWqiRTkuqPGo" target="_blank">silva138_AB_V3_classifier_eval.qzv <i class="fa-solid fa-download"></i></a>
+                            </em>
+                        </p>
+                    </div>
+                    <div class="tab-pane mt-3 fade" id="v3v4-tab-pane" role="tabpanel" aria-labelledby="v3v4-tab" tabindex="0">
+                        <p>
+                            6. Extract V3-V4 region <br>
+                            <em>Primers: 341f & 805r</em>
+                            <pre>
+                                <code>qiime feature-classifier extract-reads --i-sequences silva138_noEuk_AB_seqs_uniq.qza --p-f-primer CCTACGGGNGGCWGCAG --p-r-primer GACTACHVGGGTATCTAATCC --p-n-jobs 12 --o-reads silva138_AB_V3-V4seqs.qza
+                                </code>
+                            </pre>
+                            <em>Output: <a href="https://mega.nz/file/1LQkVT4T#rzedpymo5dhnp9b6g39t5AOZW31bI2bYVidIalseK2I" target="_blank">silva138_AB_V3-V4seqs.qza <i class="fa-solid fa-download"></i></a></em>
+                        </p>
+                        <br>
+                        <p>
+                            7. Dereplicate the target region
+                            <pre>
+                                <code>qiime rescript dereplicate --i-sequences silva138_AB_V3-V4seqs.qza --i-taxa silva138_noEuk_AB_tax_uniq.qza --o-dereplicated-sequences silva138_AB_V3-V4seqs_uniq.qza --o-dereplicated-taxa silva138_AB_V3-V4taxa_uniq.qza
+                                </code>
+                            </pre>
+                            <em>
+                                Dereplicated Sequences: <a href="https://mega.nz/file/9XQShbLB#o_QZ7F-rtDdzPShHbCTptUWfLwBaRB3Ui1LC2bwWaYs" target="_blank">silva138_AB_V3-V4seqs_uniq.qza <i class="fa-solid fa-download"></i></a>
+                                <br>
+                                Dereplicated Taxa: <a href="https://mega.nz/file/BaZmTZxT#Hzq5wHXpTU-68xf-413ifWNAfwCB2pp8hxSTgE4ulYM" target="_blank">silva138_AB_V3-V4taxa_uniq.qza <i class="fa-solid fa-download"></i></a>
+                            </em>
+                        </p>
+                        <br>
+                        <p>
+                            8. Classify & evaluate with RESCRIPt <br>
+                            <em>Using multiple threads increases memory usage <a href="https://forum.qiime2.org/t/memoryerror-when-running-feature-classifer-with-pre-trained-classifier/566/3" target="_blank"><i class="fa-solid fa-link"></i></a>. Using 1 thread with auto reads per batch (took approx 30 hrs)</em>
+                            <pre>
+                                <code>qiime rescript evaluate-fit-classifier --i-sequences silva138_AB_V3-V4seqs_uniq.qza --i-taxonomy silva138_AB_V3-V4taxa_uniq.qza --o-classifier silva138_AB_V3-V4_classifier.qza --o-observed-taxonomy silva138_AB_V3-V4_predicted_taxonomy.qza --o-evaluation silva138_AB_V3-V4_classifier_eval.qzv
+                                </code>
+                            </pre>
+                            <em>
+                                Classifier: <a href="https://mega.nz/file/BeYUhb7A#G5AMi0IheVzJGGptlZhZM2cs6p9RO0FS-iWGF3fb1os" target="_blank">silva138_AB_V3-V4_classifier.qza <i class="fa-solid fa-download"></i></a>
+                                <br>
+                                Predicted Taxonomy: <a href="https://mega.nz/file/gbImBRiC#-S1yT08NhaOI1wScibaAdv_4jHBPbrZaaLnjjT8II48" target="_blank">silva138_AB_V3-V4_predicted_taxonomy.qza <i class="fa-solid fa-download"></i></a>
+                                <br>
+                                Evaluation: <a href="https://mega.nz/file/VaRWDbKD#3OJyipfi1MM5eeFU1BxqMQuKuY33xX1USmykRsLGn-o" target="_blank">silva138_AB_V3-V4_classifier_eval.qzv <i class="fa-solid fa-download"></i></a>
+                            </em>
+                        </p>
+                    </div>
+                    <div class="tab-pane mt-3 fade" id="v4-tab-pane" role="tabpanel" aria-labelledby="v4-tab" tabindex="0">
+                        <p>
+                            6. Extract V4 region <br>
+                            <em>Primers: 515f & 806r</em>
+                            <pre>
+                                <code>qiime feature-classifier extract-reads --i-sequences silva138_noEuk_AB_seqs_uniq.qza --p-f-primer GTGYCAGCMGCCGCGGTAA --p-r-primer GGACTACNVGGGTWTCTAAT --p-n-jobs 12 --o-reads silva138_AB_V4seqs.qza
+                                </code>
+                            </pre>
+                            <em>Output: <a href="https://mega.nz/file/JHgQmRIA#9lZfwBgzGWiWrCPFOJKbZaA21ecqC2K_8dKM2v8WkGQ" target="_blank">silva138_AB_V4seqs.qza <i class="fa-solid fa-download"></i></a></em>
+                        </p>
+                        <br>
+                        <p>
+                            7. Dereplicate the target region
+                            <pre>
+                                <code>qiime rescript dereplicate --i-sequences silva138_AB_V4seqs.qza --i-taxa silva138_noEuk_AB_tax_uniq.qza --o-dereplicated-sequences silva138_AB_V4seqs_uniq.qza --o-dereplicated-taxa silva138_AB_V4taxa-uniq.qza --p-threads 12
+                                </code>
+                            </pre>
+                            <em>
+                                Dereplicated Sequences: <a href="https://mega.nz/file/Eahi3DZI#EjWrksgKgwGuGH4KWz9QGjIuIwXKSaUBo99ryAhaJzU" target="_blank">silva138_AB_V4seqs_uniq.qza <i class="fa-solid fa-download"></i></a>
+                                <br>
+                                Dereplicated Taxa: <a href="https://mega.nz/file/5D5CSLDL#sHzTKdAhxd5BOvJ4TT-wwev1l4XAXFcFArH9jnEXcDc" target="_blank">silva138_AB_V4taxa_uniq.qza <i class="fa-solid fa-download"></i></a>
+                            </em>
+                        </p>
+                        <br>
+                        <p>
+                            8. Classify & evaluate with RESCRIPt <br>
+                            <em>Using multiple threads increases memory usage <a href="https://forum.qiime2.org/t/memoryerror-when-running-feature-classifer-with-pre-trained-classifier/566/3" target="_blank"><i class="fa-solid fa-link"></i></a>. Using 1 thread with auto reads per batch (took approx 24 hrs)</em>
+                            <pre>
+                                <code>qiime rescript evaluate-fit-classifier --i-sequences silva138_AB_V4seqs_uniq.qza --i-taxonomy silva138_AB_V4taxa-uniq.qza --p-reads-per-batch 10000 --o-classifier silva138_AB_V4_classifier.qza --o-observed-taxonomy silva138_AB_V4_predicted_taxonomy.qza --o-evaluation silva138_AB_V4_classifier_eval.qzv
+                                </code>
+                            </pre>
+                            <em>
+                                Classifier: <a href="https://mega.nz/file/8S5wjZDC#32T4bG6QsUgHTAjlU0oP0d-51ZbctePwTMM4sWn_oyw" target="_blank">silva138_AB_V4_classifier.qza <i class="fa-solid fa-download"></i></a>
+                                <br>
+                                Predicted Taxonomy: <a href="https://mega.nz/file/xToi2BBY#Cywghlh5PNfnKg7F18E-6Qw8BkFOUDSaeyNIrrnt9Uw" target="_blank">silva138_AB_V4_predicted_taxonomy.qza <i class="fa-solid fa-download"></i></a>
+                                <br>
+                                Evaluation: <a href="https://mega.nz/file/ZDwAnJgL#OVei4pRuHAzH2LVhJmFosQD2xeLAbgPq6xt-iFJ_IM8" target="_blank">silva138_AB_V4_classifier_eval.qzv <i class="fa-solid fa-download"></i></a>
+                            </em>
+                        </p>
+                    </div>
+                  </div>
+            </div>
+
+            <!-- References -->
+            <hr>
+            <div class="mt-5 small">
+                <h5 class="text-secondary-emphasis text-uppercase mb-3">References</h5>
+                <ol class="text-secondary-emphasis">
+                    <li>Reproducible, interactive, scalable and extensible microbiome data science using QIIME 2. <a href="https://doi.org/10.1038/s41587-019-0209-9" target="_blank">https://doi.org/10.1038/s41587-019-0209-9</a></li>
+                    <li>RESCRIPt: Reproducible sequence taxonomy reference database management <a href="https://doi.org/10.1371/journal.pcbi.1009581" target="_blank">https://doi.org/10.1371/journal.pcbi.1009581</a></li>
+                    <li>The SILVA ribosomal RNA gene database project: improved data processing and web-based tools <a href="https://doi.org/10.1093/nar/gks1219" target="_blank">https://doi.org/10.1093/nar/gks1219</a></li>
+                </ol>
+            </div>
+            
+        </section>
+
+        <!-- Footer -->
+        <hr>
+        <div class="px-5 mx-auto mb-3">
+            <footer class="d-flex flex-wrap justify-content-between align-items-center py-2">
+                <ul class="nav gap-4 justify-content-end text-secondary-emphasis">
+                    <li class="nav-item"><i class="bi bi-pc-display text-success"></i> System Specifications</a></li>
+                    <li class="nav-item"><i class="bi bi-cpu-fill text-danger"></i> AMD Ryzen 4600H (6C/12T)</a></li>
+                    <li class="nav-item"><i class="bi bi-memory text-accent3"></i> 16GB</a></li>
+                    <li class="nav-item"><span class="text-accent2">Swap:</span> 50GB</a></li>
+                    <li class="nav-item"><code>tmp</code> 50GB</a></li>
+                    <li class="nav-item">OS: <i class="fa-brands fa-fedora text-info h5"></i></a></li>
+                </ul>
+            </footer>
+            <!-- Scroll to TOP button -->
+            <button type="button" class="btn btn-accent3" id="btn-back-to-top">
+                <i class="fa-solid fa-arrow-up"></i>
+            </button>
+        </div>
+        
+        <!-- Bootstrap JS with Popper -->
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL" crossorigin="anonymous"></script>
+
+        <!-- Highlight JS -->
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/highlight.min.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/languages/go.min.js"></script>
+        <script>hljs.highlightAll();</script>
+        
+        <!-- Highlight-copy JS -->
+        <script src="https://unpkg.com/highlightjs-copy/dist/highlightjs-copy.min.js"></script>
+        <script>
+            hljs.addPlugin(new CopyButtonPlugin());
+        </script>
+
+        <!-- Font Awesome v6 JS -->
+        <script src="https://kit.fontawesome.com/64b7be69f4.js" crossorigin="anonymous"></script>
+
+        <!-- jQuery -->
+        <script src="https://code.jquery.com/jquery-3.6.3.js"></script>
+        <script src="https://code.jquery.com/ui/1.13.2/jquery-ui.js"></script>
+
+        <!-- Custom JS -->
+        <script src="assets/js/extended.js" async defer></script>
+    </body>
+</html>
