@@ -18,7 +18,7 @@ _**Dereplicated Taxa:** [silva138_AB_V3taxa_uniq.qza](https://mega.nz/file/Abw0X
 <br>
 
 #### Classifying & evaluating with RESCRIPt
-Using multiple threads increases memory usage [Ref](https://forum.qiime2.org/t/memoryerror-when-running-feature-classifer-with-pre-trained-classifier/566/3). Using 1 thread with auto reads per batch (took approx 2 0 hrs)
+Using multiple threads increases memory usage [Ref](https://forum.qiime2.org/t/memoryerror-when-running-feature-classifer-with-pre-trained-classifier/566/3). Using 1 thread with auto reads per batch (took approx 20 hrs)
 ```bash
 qiime rescript evaluate-fit-classifier --i-sequences silva138_AB_V3seqs_uniq.qza --i-taxonomy silva138_AB_V3taxa_uniq.qza --o-classifier silva138_AB_V3_classifier.qza --o-observed-taxonomy silva138_AB_V3_predicted_taxonomy.qza --o-evaluation silva138_AB_V3_classifier_eval.qzv
 ```
