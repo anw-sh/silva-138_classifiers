@@ -46,6 +46,9 @@ Generating a full length classifier
 ```bash
 qiime rescript evaluate-fit-classifier --i-sequences silva138_noEuk_AB_seqs_uniq.qza --i-taxonomy silva138_noEuk_AB_tax_uniq.qza --o-classifier silva138_noEuk_AB_classifier.qza --o-observed-taxonomy silva138_noEuk_AB_predicted_taxonomy.qza --o-evaluation silva138_noEuk_AB_classifier_eval.qzv --p-n-jobs 10
 ```
+_**Classifier:** [silva138_noEuk_AB_classifier.qza](https://mega.nz/file/4GAkjKyK#-sKjy5z8BoO-FKvqYRZQm3zPUL4xKcJT4w5nmqil7Jk)_  
+_**Predicted Taxonomy:** [silva138_noEuk_AB_predicted_taxonomy.qza](https://mega.nz/file/0ao0QY7B#hzLrBzrn4pZgPRAKYGOYJBFC89Co7TNEc2yIvogKM_c)_  
+_**Evaluation:** [silva138_noEuk_AB_classifier_eval.qzv](https://mega.nz/file/wL5CSBRJ#GVaWH9FbRSemePdF9y1AM2CTiPyd1WzHq9rdz2gUFKU)_
 
 ___
 
