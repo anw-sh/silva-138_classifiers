@@ -43,9 +43,8 @@
             </p>
             <hr class="w-75 mx-auto">
             <p class="text-secondary-emphasis text-center">
-                <strong>Direct Download Directories: </strong><a href="https://mega.nz/folder/BShVxSxI#ycO7skyxUlF45mFI9qd1YQ" target="_blank">V1-V2 <i class="fa-regular fa-folder-open"></i></a> | <a href="https://mega.nz/folder/EH5kGJoI#LMADRhcXuUWhExFLRTcghw" target="_blank">V3 <i class="fa-regular fa-folder-open"></i></a> | <a href="https://mega.nz/folder/kbAkjDrT#0XV7sNKg7_ljTTbIKBwTSQ" target="_blank">V3-V4 <i class="fa-regular fa-folder-open"></i></a> | <a href="https://mega.nz/folder/9eIwyBSb#E61q1s1lbkxQ6kzxCW-qNg" target="_blank">V4 <i class="fa-regular fa-folder-open"></i></a>
+                <strong>Direct Download Directories: </strong><a href="https://mega.nz/folder/BShVxSxI#ycO7skyxUlF45mFI9qd1YQ" target="_blank">V1-V2 <i class="fa-regular fa-folder-open"></i></a> | <a href="https://mega.nz/folder/EH5kGJoI#LMADRhcXuUWhExFLRTcghw" target="_blank">V3 <i class="fa-regular fa-folder-open"></i></a> | <a href="https://mega.nz/folder/kbAkjDrT#0XV7sNKg7_ljTTbIKBwTSQ" target="_blank">V3-V4 <i class="fa-regular fa-folder-open"></i></a> | <a href="https://mega.nz/folder/9eIwyBSb#E61q1s1lbkxQ6kzxCW-qNg" target="_blank">V4 <i class="fa-regular fa-folder-open"></i></a> | <a href="https://mega.nz/folder/tOwTWC7b#GH7TO3cQgeCRJylVrBzpIQ" target="_blank">Full Length <i class="fa-regular fa-folder-open"></i></a>
             </p>
-
             <!-- Workflow -->
             <h3 class="text-center text-warning-emphasis mt-5 fw-bold">Workflow</h3>
             <p>
@@ -94,6 +93,24 @@
                     Dereplicated Sequences: <a href="https://mega.nz/file/xaITGA7L#V9BtsBC9Zd61K0YLgEYJBNpc4WP4fuN4go01sneRhoI" target="_blank"> silva138_noEuk_AB_seqs_uniq.qza <i class="fa-solid fa-download"></i></a>
                     <br>
                     Dereplicated Taxa: <a href="https://mega.nz/file/IeZnxQ4L#MBreCSxvIa5WG1bSJy7brqo8glfhjDL87KYjqAcSEkw" target="_blank">silva138_noEuk_AB_tax_uniq.qza <i class="fa-solid fa-download"></i></a>
+                </em>
+            </p>
+            <br>
+            <p>
+                5a. Classifying & evaluating with RESCRIPt <br>
+                <em>
+                    Generating a full length classifier <br>
+                    This step was performed with <code>qiime_2023.5</code> on a Fedora 39 server
+                </em>
+                <pre>
+                    <code>qiime rescript evaluate-fit-classifier --i-sequences silva138_noEuk_AB_seqs_uniq.qza --i-taxonomy silva138_noEuk_AB_tax_uniq.qza --o-classifier silva138_noEuk_AB_classifier.qza --o-observed-taxonomy silva138_noEuk_AB_predicted_taxonomy.qza --o-evaluation silva138_noEuk_AB_classifier_eval.qzv --p-n-jobs 10</code>
+                </pre>
+                <em>
+                    Classifier: <a href="https://mega.nz/file/4GAkjKyK#-sKjy5z8BoO-FKvqYRZQm3zPUL4xKcJT4w5nmqil7Jk" target="_blank">silva138_noEuk_AB_classifier.qza <i class="fa-solid fa-download"></i></a>
+                    <br>
+                    Predicted Taxonomy: <a href="https://mega.nz/file/0ao0QY7B#hzLrBzrn4pZgPRAKYGOYJBFC89Co7TNEc2yIvogKM_c" target="_blank">silva138_noEuk_AB_predicted_taxonomy.qza <i class="fa-solid fa-download"></i></a>
+                    <br>
+                    Evaluation: <a href="https://mega.nz/file/wL5CSBRJ#GVaWH9FbRSemePdF9y1AM2CTiPyd1WzHq9rdz2gUFKU" target="_blank">silva138_noEuk_AB_classifier_eval.qzv <i class="fa-solid fa-download"></i></a>
                 </em>
             </p>
 
