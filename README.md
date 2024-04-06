@@ -32,6 +32,7 @@ Feature Classifiers for different variable regions of Prokaryotic 16S rRNA genes
 - [V3 classifier](https://mega.nz/folder/EH5kGJoI#LMADRhcXuUWhExFLRTcghw)
 - [V3-V4 classifier](https://mega.nz/folder/kbAkjDrT#0XV7sNKg7_ljTTbIKBwTSQ)
 - [V4 classifier](https://mega.nz/folder/9eIwyBSb#E61q1s1lbkxQ6kzxCW-qNg)
+- [Full length classifier](https://mega.nz/folder/tOwTWC7b#GH7TO3cQgeCRJylVrBzpIQ)
 
 <br>
 
