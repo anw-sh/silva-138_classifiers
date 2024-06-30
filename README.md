@@ -1,6 +1,6 @@
 # silva-138_classifiers
 
-> Single page [HTML version](https://anw-sh.github.io/silva-138_classifiers/)
+> [HTML version](https://anw-sh.github.io/silva/silva_138.html)
 
 Feature Classifiers for different variable regions of Prokaryotic 16S rRNA genes.  
 
