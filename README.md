@@ -1,7 +1,6 @@
 # silva-138_classifiers
 
 > [HTML version](https://anw-sh.github.io/silva/silva_138.html)  
-> [NCBI classifier](https://github.com/anw-sh/ncbi_classifier)
 
 Feature Classifiers for different variable regions of Prokaryotic 16S rRNA genes.  
 
@@ -36,6 +35,11 @@ Feature Classifiers for different variable regions of Prokaryotic 16S rRNA genes
 - [Full length classifier](https://mega.nz/folder/tOwTWC7b#GH7TO3cQgeCRJylVrBzpIQ)
 
 <br>
+
+### Other classifiers
+[NCBI](https://github.com/anw-sh/ncbi_classifier)  
+[Silva 138.2 full length](https://github.com/anw-sh/silva138.2_classifier)
+
 
 ---
 
